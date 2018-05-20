@@ -1,0 +1,33 @@
+# building app and required component for running the app
+version: '3'
+services:
+  database:
+    build: docker/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=laravel
+  web:
+    image: laravel-www-1.0.1
+    container_name: laravel-www
+    build: docker/nginx
+    ports:
+      - "8888:80"
+    # we have configured our nginx container to have its webroot /var/www/public
+    # so we have to mount our project "example-proj" folder to /var/www
+    # we already have "public" folder in our project
+    volumes:
+      - ./:/var/www
+    links:
+      - php
+    depends_on:
+      - php
+  php:
+    build: docker/php
+    volumes:
+      - ./:/var/www
+    expose:
+      - "9000"
+
+
