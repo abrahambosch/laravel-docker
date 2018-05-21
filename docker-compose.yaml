@@ -1,13 +1,15 @@
 # building app and required component for running the app
-version: '3'
+version: '3.1'
 services:
   database:
     build: docker/mysql
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_USER=laravel
-      - MYSQL_PASSWORD=laravel
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
   web:
     image: laravel-www-1.0.1
     container_name: laravel-www
